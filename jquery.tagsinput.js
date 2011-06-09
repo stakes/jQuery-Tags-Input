@@ -31,13 +31,6 @@
 
 				value = jQuery.trim(value);
 		
-		        if (options.callback && tags_callbacks[id] && tags_callbacks[id]['formatter']) {
-                    
-                    var f = tags_callbacks[id]['formatter'];
-                    value = f(value);
-                    
-                }
-		
 				if (options.unique) {
 					skipTag = $(tagslist).tagExist(value);
 				} else {
@@ -45,6 +38,14 @@
 				}
 
 				if (value !='' && skipTag != true) { 
+				    
+    		        if (options.callback && tags_callbacks[id] && tags_callbacks[id]['formatter']) {
+
+                        var f = tags_callbacks[id]['formatter'];
+                        value = f(value);
+
+                    }
+				    
                     $('<span>').addClass('tag').append(
                         $('<span>').text(value).append('&nbsp;&nbsp;'),
                         $('<a>', {

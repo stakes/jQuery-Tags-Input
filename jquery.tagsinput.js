@@ -31,6 +31,13 @@
 
 				value = jQuery.trim(value);
 		
+		        if (options.callback && tags_callbacks[id] && tags_callbacks[id]['formatter']) {
+                    
+                    var f = tags_callbacks[id]['formatter'];
+                    value = f(value);
+                    
+                }
+		
 				if (options.unique) {
 					skipTag = $(tagslist).tagExist(value);
 				} else {
@@ -48,7 +55,7 @@
                             return $('#' + id).removeTag(escape(value));
                         })
                     ).insertBefore('#' + id + '_addTag');
-
+                    
 					tagslist.push(value);
 				
 					$('#'+id+'_tag').val('');
@@ -137,14 +144,15 @@
 	
 	
 			delimiter[id] = data.delimiter;
-			
-			if (settings.onAddTag || settings.onRemoveTag || settings.onChange) {
+	
+			if (settings.onAddTag || settings.onRemoveTag || settings.onChange || settings.formatter) {
 				tags_callbacks[id] = new Array();
 				tags_callbacks[id]['onAddTag'] = settings.onAddTag;
 				tags_callbacks[id]['onRemoveTag'] = settings.onRemoveTag;
 				tags_callbacks[id]['onChange'] = settings.onChange;
+				tags_callbacks[id]['formatter'] = settings.formatter;
 			}
-	
+
 			var markup = '<div id="'+id+'_tagsinput" class="tagsinput"><div id="'+id+'_addTag">';
 			
 			if (settings.interactive) {
